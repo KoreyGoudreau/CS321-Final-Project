@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Grid {
 	
 	private final Cell[][] cells;
-	int size;
+	private final int size;
 	
 	public Grid(SimulationInput input) {
 		

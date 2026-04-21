@@ -1,0 +1,366 @@
+@startuml
+
+package FinalProject.Factory {
+
+	+ abstract class Building {
+		# final Cell cell
+		# final String buildingName
+		--
+		+ Building(Cell cell, String buildingName)
+		+ Cell getCell()
+		+ String getBuildingName()
+		+ interact(Car car, int time)
+	}
+
+	+ class BuildingFactory {
+		+ {static} Building createHome(Cell cell, String buildingName)
+		+ {static} Building createDestination(Cell cell, String buildingName, int openingTime)
+	}
+
+	+ class Destination extends Building {
+		int openingTime
+		--
+		+ Destination(Cell cell, String buildingName, int openingTime)
+		+ void interact(Car car, int time)
+	}
+
+	+ class Home extends Building {
+		+ Home(Cell cell, String buildingName)
+		+ void interact(Car car, int time)
+	}
+
+	BuildingFactory --> Building
+	Destination --> Car : interacts
+	Home --> Car : interacts
+}
+
+package FinalProject.Observer {
+
+	+ class CarLine implements StoplightObserver {
+		- final ArrayList<Car> carLine
+		- final Intersection intersection
+		- final Stoplight stoplight
+		- final String direction
+		--
+		+ CarLine(Intersection intersection, String direction)
+		+ synchronized void addCar(Car car)
+		- synchronized void moveFirstCar()
+		+ void notifyCarMoved()
+		+ void update(String direction, String lightColor)
+	}
+
+	+ class Stoplight extends Unit implements StoplightSubject {
+		- {static} final String[] CARDINAL_DIRECTIONS = {"north", "east", "south", "west"}
+		- int currentDirectionIndex
+		- StoplightState state
+		- final ArrayList<StoplightObserver> observers
+		- final int duration
+		--
+		+ Stoplight(SimulationInput input)
+		+ int getDuration()
+		+ String getCurrentDirection()
+		+ void setState(StoplightState newState)
+		+ boolean isGreenForDirection(String direction)
+		+ void rotateDirection()
+		+ void notifyObservers()
+		+ void addObserver(StoplightObserver o)
+		+ void performAction()
+		+ void submitStatistics()
+	}
+
+	+ interface StoplightObserver {
+		void update(String direction, String lightColor)
+	}
+
+	+ interface StoplightSubject {
+		void notifyObservers()
+		void addObserver(StoplightObserver o)
+	}
+
+	StoplightSubject <|.. Stoplight
+	StoplightObserver <|.. CarLine
+	Stoplight --> StoplightObserver : notifies >
+	CarLine --> Stoplight : observes >
+	CarLine --> Car : manages >
+	Stoplight --> StoplightState : uses >
+	Stoplight --> SimulationInput : constructed from >
+	CarLine --> Intersection : belongs to >
+}
+
+package FinalProject.State {
+
+	+ class GreenState implements StoplightState {
+		- int counter = 0
+		--
+		+ void action(Stoplight stoplight)
+		+ String getLightColor()
+	}
+
+	+ interface StoplightState {
+		void action(Stoplight stoplight)
+		String getLightColor()
+	}
+
+	+ class YellowState implements StoplightState {
+		- int counter = 0
+		--
+		+ void action(Stoplight stoplight)
+		+ String getLightColor()
+	}
+
+	StoplightState <|.. GreenState
+	StoplightState <|.. YellowState
+}
+
+package FinalProject.Strategy {
+
+	+ class HorizontalFirstStrategy implements RouteStrategy {
+		- boolean moveNorthFlag = false
+		- boolean moveEastFlag = false
+		- boolean moveSouthFlag = false
+		- boolean moveWestFlag = false
+		--
+		+ Cell nextCell(Cell current, Cell destination)
+	}
+
+	+ interface RouteStrategy {
+		Cell nextCell(Cell current, Cell destination)
+	}
+
+	+ class VerticalFirstStrategy implements RouteStrategy {
+		- boolean moveNorthFlag = false
+		- boolean moveEastFlag = false
+		- boolean moveSouthFlag = false
+		- boolean moveWestFlag = false
+		--
+		+ Cell nextCell(Cell current, Cell destination)
+	}
+
+	+ class ZigzagStrategy implements RouteStrategy {
+		- boolean movingHorizontally = true
+		- boolean moveNorthFlag = false
+		- boolean moveEastFlag = false
+		- boolean moveSouthFlag = false
+		- boolean moveWestFlag = false
+		--
+		+ Cell nextCell(Cell current, Cell destination)
+	}
+
+	RouteStrategy <|.. HorizontalFirstStrategy
+	RouteStrategy <|.. VerticalFirstStrategy
+	RouteStrategy <|.. ZigzagStrategy
+}
+
+package FinalProject {
+
+	+ class Car extends Unit {
+		- final int speed
+		- final RouteStrategy routeStrategy
+		- Home home
+		- Destination destination
+		- Cell currentCell
+		- final Statistic carLog
+		- boolean waitingAtIntersection = false
+		- boolean DestinationReached = false
+		--
+		+ Car(String name, int speed, String routeStrategy, SimulationInput input)
+		+ void setHome(Home home)
+		+ void setDestination(Destination destination)
+		+ void crossIntersection(CarLine carLine)
+		+ void performAction()
+		+ void submitStatistics()
+	}
+
+	+ class Cell {
+		- final int row
+		- final int col
+		- final String type
+		- final Grid grid
+		- Intersection intersection = null
+		--
+		+ Cell(int row, int col, String type, Grid grid)
+		+ int getRow()
+		+ int getCol()
+		+ Intersection getIntersection()
+		+ boolean setIntersection(Intersection intersection)
+		+ boolean canSetBuilding()
+		+ boolean isTypeRoad()
+		+ boolean canDriveOn()
+		+ Cell getNorth()
+		+ Cell getSouth()
+		+ Cell getEast()
+		+ Cell getWest()
+		+ boolean noAdjacentIntersections()
+		+ boolean equals(Object obj)
+	}
+
+	+ class City {
+		- {static} City instance = null
+		- final ArrayList<Stoplight> stoplights
+		- final ArrayList<Car> cars
+		--
+		- City(SimulationInput input)
+		+ {static} synchronized City getInstance(SimulationInput input)
+		+ ArrayList<Stoplight> getStoplights()
+		+ ArrayList<Car> getCars()
+	}
+
+	+ class Grid {
+		- final Cell[][] cells
+		- final int size
+		--
+		+ Grid(SimulationInput input)
+		+ Cell getCell(int row, int col)
+		+ ArrayList<Stoplight> getStoplights()
+		+ void printGrid()
+	}
+
+	+ class Intersection {
+		- final Stoplight stoplight
+		- final CarLine northCarLine
+		- final CarLine eastCarLine
+		- final CarLine southCarLine
+		- final CarLine westCarLine
+		- final Semaphore passingCarSemaphore
+		--
+		+ Intersection(SimulationInput input)
+		+ Stoplight getStoplight()
+		+ Semaphore getPassingCarSemaphore()
+		+ CarLine getCarLine(String direction)
+	}
+
+	+ class LogStatistic extends Statistic {
+		+ LogStatistic(String name)
+		
+		+ float summarize()
+		
+		+ void printStatistic()
+	}
+
+	+ class Main {
+		+ {static} StatisticsContainer runTest(SimulationInput input)
+		+ {static} StatisticsContainer runTest(ArrayList<ArrayList<String>> input)
+		+ {static} void main(String[] args)
+	}
+
+	+ class Matrix {
+		+ {static} void run(SimulationInput input)
+	}
+
+	+ class Timer {
+		- {static} long startTime
+		--
+		+ {static} void startTimer()
+		+ {static} int getTime()
+	}
+
+	Car --> RouteStrategy : uses >
+	Car --> Home
+	Car --> Destination
+	Car --> Cell
+	Car --> CarLine : crosses >
+	Cell --> Grid
+	Cell --> Intersection
+	City --> Grid
+	City --> Building
+	City --> Stoplight
+	City --> Car
+	Grid --> Cell
+	Grid --> Stoplight
+	Intersection --> Stoplight
+	Intersection --> CarLine
+	Intersection --> Semaphore
+	LogStatistic --> Statistic
+}
+
+package Skeleton {
+
+	+ class FloatWorkerStatistic extends Statistic {
+		+ FloatWorkerStatistic(String name)
+		+ float summarize()
+		+ void printStatistic()
+	}
+
+	+ class SimulationInput {
+		- ArrayList<ArrayList<String>> input
+		--
+		+ SimulationInput()
+		+ SimulationInput(ArrayList<ArrayList<String>> input)
+		+ void setInputArray(ArrayList<ArrayList<String>> input)
+		+ void addInput(String key, Collection<String> value)
+		+ Integer getIntegerInput(String key)
+		+ ArrayList<String> getInput(String key)
+		- ArrayList<String> findKey(String key) throws RuntimeException
+	}
+
+	+ abstract class Statistic implements Iterable<Object>{
+		# ArrayList<Object> values
+		- final String name
+		--
+		+ Statistic(String name)
+		+ String getName()
+		+ Iterator<Object> iterator()
+		+ synchronized void addValue(Object item)
+		+ synchronized void removeValue()
+		+ synchronized void removeValue(int index)
+		+ Object getValue(int index)
+		+ abstract float summarize()
+		+ abstract void printStatistic()
+	}
+
+	+ class Statistics {
+		- SimulationInput input
+		- HashMap<String, Statistic> allStats
+		--
+		+ Statistics(SimulationInput input)
+		+ Statistic addStatistic(String name, Statistic stat)
+		+ Statistic getStatistic(String name)
+		+ void printStatistics()
+	}
+
+	+ class StatisticsContainer {
+		- LinkedHashMap<String, Statistics> allStatistics
+		- {static} StatisticsContainer stats
+		- SimulationInput input
+		--
+		- StatisticsContainer (SimulationInput input)
+		- StatisticsContainer (SimulationInput input, String[] compNames)
+		+ {static} StatisticsContainer getInstance()
+		+ {static} StatisticsContainer getInstance(SimulationInput si)
+		+ Statistics addComponent (String component)
+		+ Statistics getComponent (String component)
+		+ void printStatisticsContainer()
+	}
+
+	+ abstract class Unit implements Runnable {
+		- name : String
+		- input : SimulationInput
+		- stats : Statistics
+		--
+		+ Unit(SimulationInput input)
+		+ Unit(String name, SimulationInput input)
+		+ Statistics getStats()
+		+ abstract void performAction()
+		+ abstract void submitStatistics()
+		+ SimulationInput getSimInput()
+		+ String getName()
+		+ boolean equals(Object o)
+		+ void run()
+	}
+
+	+ class WorkerStatistic extends Statistic {
+		+ WorkerStatistic(String name)
+		+ float summarize()
+		+ void printStatistic()
+	}
+
+	Statistic <|-- FloatWorkerStatistic
+	Statistic <|-- WorkerStatistic
+	Statistics --> Statistic : manages >
+	StatisticsContainer --> Statistics : contains >
+	StatisticsContainer --> SimulationInput
+	Unit --> SimulationInput
+	Unit --> Statistics
+}
+
+@enduml

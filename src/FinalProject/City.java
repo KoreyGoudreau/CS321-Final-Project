@@ -13,19 +13,17 @@ public class City {
 	
 	private static City instance = null;
 	
-	Grid grid;
-	ArrayList<Building> buildings;
-	ArrayList<Stoplight> stoplights;
-	ArrayList<Car> cars;
+	private final ArrayList<Stoplight> stoplights;
+	private final ArrayList<Car> cars;
 	
 	private City(SimulationInput input) {
 		
 		// Setup Grid
-		this.grid = new Grid(input);
-		this.stoplights = this.grid.getStoplights();
+		Grid grid = new Grid(input);
+		this.stoplights = grid.getStoplights();
 		
 		// Setup Buildings
-		this.buildings = new ArrayList<>();
+		ArrayList<Building> buildings = new ArrayList<>();
 		ArrayList<String> buildingNames = input.getInput("BuildingNames");
 		ArrayList<String> buildingTypes = input.getInput("BuildingTypes");
 		ArrayList<String> openingTimes = input.getInput("OpeningTimes");
@@ -45,7 +43,7 @@ public class City {
 			int row = Integer.parseInt(buildingData.get(0));
 			int col = Integer.parseInt(buildingData.get(1));
 			
-			Cell cell = this.grid.getCell(row, col);
+			Cell cell = grid.getCell(row, col);
 			
 			Building building;
 			if (type.equals("destination")) {
@@ -68,7 +66,7 @@ public class City {
 			if (!cell.canSetBuilding()) {
 				throw new IllegalArgumentException("Error: Cannot assign a Building to (row = " + cell.getRow() + ", col = " + cell.getCol() + ").");
 			}
-			this.buildings.add(building);
+			buildings.add(building);
 		}
 		
 		// Setup Cars
@@ -83,7 +81,7 @@ public class City {
 			int speed = Integer.parseInt(carSpeeds.get(i));
 			String routeStrategy = routeStrategies.get(i);
 			
-			Car car = new Car(this.grid, name, speed, routeStrategy, input);
+			Car car = new Car(name, speed, routeStrategy, input);
 			
 			// Add all Cars to this City's ArrayList of Cars
 			this.cars.add(car);
@@ -93,7 +91,7 @@ public class City {
 		for (int i = 0; i < buildingNames.size(); i++) {
 			
 			String buildingName = buildingNames.get(i);
-			Building building = this.buildings.get(i);
+			Building building = buildings.get(i);
 			
 			ArrayList<String> buildingData = input.getInput(buildingName);
 			

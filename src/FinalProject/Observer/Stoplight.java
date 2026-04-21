@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Stoplight extends Unit implements StoplightSubject {
-	static final String[] CARDINAL_DIRECTIONS = {"north", "east", "south", "west"};
+	private static final String[] CARDINAL_DIRECTIONS = {"north", "east", "south", "west"};
 	private int currentDirectionIndex;
 	private StoplightState state;
 	private final ArrayList<StoplightObserver> observers;

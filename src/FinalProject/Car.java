@@ -8,19 +8,17 @@ import Skeleton.*;
 
 public class Car extends Unit {
 	
-	Grid grid;
-	int speed;
-	RouteStrategy routeStrategy;
-	Home home;
-	Destination destination;
+	private final int speed;
+	private final RouteStrategy routeStrategy;
+	private Home home;
+	private Destination destination;
 	private Cell currentCell;
 	private final Statistic carLog;
 	private boolean waitingAtIntersection = false;
 	private boolean DestinationReached = false;
 	
-	public Car(Grid grid, String name, int speed, String routeStrategy, SimulationInput input) {
+	public Car(String name, int speed, String routeStrategy, SimulationInput input) {
 		super(name, input);
-		this.grid = grid;
 		this.speed = speed;
 		
 		switch (routeStrategy) {

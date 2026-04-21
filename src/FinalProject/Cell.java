@@ -1,10 +1,13 @@
 package FinalProject;
 
+/**
+ * There are 3 types of Cells, "road", "intersection" or "none".
+ */
 public class Cell {
 	
 	private final int row;
 	private final int col;
-	private final String type;   // "road", "intersection" or "none"
+	private final String type;
 	private final Grid grid;
 	
 	private Intersection intersection = null;

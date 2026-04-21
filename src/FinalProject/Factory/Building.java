@@ -5,8 +5,8 @@ import FinalProject.Cell;
 
 public abstract class Building {
 	
-	Cell cell;
-	String buildingName;
+	protected final Cell cell;
+	protected final String buildingName;
 	
 	public Building(Cell cell, String buildingName) {
 		this.cell = cell;

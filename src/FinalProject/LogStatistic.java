@@ -1,4 +1,6 @@
-package Skeleton;
+package FinalProject;
+
+import Skeleton.Statistic;
 
 public class LogStatistic extends Statistic {
 	
