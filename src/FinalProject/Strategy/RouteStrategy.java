@@ -9,7 +9,7 @@ public interface RouteStrategy {
 	 * This ensures the Car does not move.
 	 * Cars cannot move on Cells of type "none".
 	 *
-	 * @param current the Cell representing a Car's current position of the grid
+	 * @param current     the Cell representing a Car's current position of the grid
 	 * @param destination the Cell representing a Car's travel Destination
 	 * @return the next Cell the Car should move to
 	 */

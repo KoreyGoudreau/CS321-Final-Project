@@ -5,7 +5,7 @@ import FinalProject.Cell;
 import Skeleton.Statistic;
 import Skeleton.StatisticsContainer;
 
-public class Home extends Building{
+public class Home extends Building {
 	
 	public Home(Cell cell, String buildingName) {
 		super(cell, buildingName);
@@ -14,7 +14,7 @@ public class Home extends Building{
 	/**
 	 * Adds a message into a Car's log (from Statistics) when and where a Car left this building.
 	 *
-	 * @param car the Car interacting with this building
+	 * @param car  the Car interacting with this building
 	 * @param time the time at which this interaction occurred
 	 */
 	public void interact(Car car, int time) {

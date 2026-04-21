@@ -48,7 +48,7 @@ public class City {
 			Cell cell = this.grid.getCell(row, col);
 			
 			Building building;
-			if(type.equals("destination")) {
+			if (type.equals("destination")) {
 				
 				// Set up a Destination's opening time
 				int openingTime = Integer.parseInt(openingTimes.get(destinationIndex));
@@ -65,7 +65,7 @@ public class City {
 			}
 			
 			// Assign the instantiated Building if the Cell associated to its location on the Grid allows Buildings
-			if(!cell.canSetBuilding()) {
+			if (!cell.canSetBuilding()) {
 				throw new IllegalArgumentException("Error: Cannot assign a Building to (row = " + cell.getRow() + ", col = " + cell.getCol() + ").");
 			}
 			this.buildings.add(building);
@@ -103,13 +103,13 @@ public class City {
 				
 				String name = buildingData.get(x);
 				
-				for(Car car : this.cars) {
-					if(car.getName().equals(name)) {
+				for (Car car : this.cars) {
+					if (car.getName().equals(name)) {
 						
-						if(building instanceof Home) {
+						if (building instanceof Home) {
 							car.setHome((Home) building);
 							System.out.println("Assigning Home \"" + building.getBuildingName() + "\" to Car \"" + car.getName() + "\".");
-						} else if(building instanceof Destination) {
+						} else if (building instanceof Destination) {
 							car.setDestination((Destination) building);
 							System.out.println("Assigning Destination \"" + building.getBuildingName() + "\" to Car \"" + car.getName() + "\".");
 						} else {
@@ -142,7 +142,7 @@ public class City {
 	 *
 	 * @return all the Stoplights in the city
 	 */
-	public ArrayList<Stoplight> getStoplights(){
+	public ArrayList<Stoplight> getStoplights() {
 		return this.stoplights;
 	}
 	
@@ -152,7 +152,7 @@ public class City {
 	 *
 	 * @return all the Cars in the city
 	 */
-	public ArrayList<Car> getCars(){
+	public ArrayList<Car> getCars() {
 		return this.cars;
 	}
 }

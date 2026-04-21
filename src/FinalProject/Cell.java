@@ -1,7 +1,5 @@
 package FinalProject;
 
-import FinalProject.Observer.Intersection;
-
 public class Cell {
 	
 	private final int row;
@@ -38,7 +36,7 @@ public class Cell {
 	 * @return boolean value representing the success of this function
 	 */
 	public boolean setIntersection(Intersection intersection) {
-		if(this.isTypeIntersection()) {
+		if (this.isTypeIntersection()) {
 			this.intersection = intersection;
 			return true;
 		}
@@ -55,11 +53,11 @@ public class Cell {
 		return this.isTypeRoad() && this.noAdjacentIntersections();
 	}
 	
-	public boolean isTypeRoad(){
+	public boolean isTypeRoad() {
 		return "road".equals(this.type);
 	}
 	
-	public boolean isTypeIntersection(){
+	public boolean isTypeIntersection() {
 		return "intersection".equals(this.type);
 	}
 	
@@ -91,21 +89,21 @@ public class Cell {
 	public boolean noAdjacentIntersections() {
 		return (
 			(this.getNorth() == null || !this.getNorth().isTypeIntersection()) &&
-			(this.getEast() == null || !this.getEast().isTypeIntersection()) &&
-			(this.getSouth() == null || !this.getSouth().isTypeIntersection()) &&
-			(this.getWest() == null || !this.getWest().isTypeIntersection())
+				(this.getEast() == null || !this.getEast().isTypeIntersection()) &&
+				(this.getSouth() == null || !this.getSouth().isTypeIntersection()) &&
+				(this.getWest() == null || !this.getWest().isTypeIntersection())
 		);
 	}
 	
 	/**
 	 * 2 Cells on the same grid are equal if they have the same row and column values.
 	 *
-	 * @param obj   the reference object with which to compare.
+	 * @param obj the reference object with which to compare.
 	 * @return if both Cells are equal
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Cell otherCell) {
+		if (obj instanceof Cell otherCell) {
 			return this.row == otherCell.getRow() && this.col == otherCell.getCol();
 		}
 		return false;

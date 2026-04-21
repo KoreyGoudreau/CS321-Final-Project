@@ -1,6 +1,5 @@
 package FinalProject;
 
-import FinalProject.Observer.Intersection;
 import FinalProject.Observer.Stoplight;
 import Skeleton.SimulationInput;
 
@@ -19,9 +18,9 @@ public class Grid {
 		int roadLength = input.getIntegerInput("GridRoadLength");
 		
 		// Ensure minimum values are good
-		if(intersectionsPerRow < 2) {
+		if (intersectionsPerRow < 2) {
 			throw new IllegalArgumentException("Error: GridIntersectionsPerRow has minimum value of 2.");
-		} else if(roadLength < 3) {
+		} else if (roadLength < 3) {
 			throw new IllegalArgumentException("Error: GridRoadLength has minimum value of 3.");
 		}
 		
@@ -38,7 +37,7 @@ public class Grid {
 				boolean rowContainsIntersections = row % (roadLength + 1) == 0;
 				boolean colContainsIntersections = col % (roadLength + 1) == 0;
 				
-				if(rowContainsIntersections && colContainsIntersections) {
+				if (rowContainsIntersections && colContainsIntersections) {
 					
 					// Setup Cell of type "intersection"
 					Cell cell = new Cell(row, col, "intersection", this);
@@ -46,11 +45,11 @@ public class Grid {
 					
 					// Create and assign an Intersection to the Cell
 					Intersection intersection = new Intersection(input);
-					if(!cell.setIntersection(intersection)) {
+					if (!cell.setIntersection(intersection)) {
 						throw new IllegalArgumentException("Error: Cannot assign an Intersection to row = " + cell.getRow() + " and col = " + cell.getCol() + ".");
 					}
 					
-				} else if(rowContainsIntersections || colContainsIntersections) {
+				} else if (rowContainsIntersections || colContainsIntersections) {
 					
 					// Setup Cell of type "road"
 					this.cells[row][col] = new Cell(row, col, "road", this);
@@ -75,7 +74,7 @@ public class Grid {
 	 * @return the requested Cell, or null value
 	 */
 	public Cell getCell(int row, int col) {
-		if(row < 0 || col < 0 || row >= this.size || col >= this.size) {
+		if (row < 0 || col < 0 || row >= this.size || col >= this.size) {
 			return null;
 		}
 		return this.cells[row][col];
@@ -93,7 +92,7 @@ public class Grid {
 		ArrayList<Stoplight> stoplights = new ArrayList<>();
 		for (Cell[] cell : this.cells) {
 			for (int col = 0; col < this.cells.length; col++) {
-				if(cell[col].isTypeIntersection()) {
+				if (cell[col].isTypeIntersection()) {
 					stoplights.add(cell[col].getIntersection().getStoplight());
 				}
 			}
@@ -113,9 +112,9 @@ public class Grid {
 		for (int row = 0; row < this.size; row++) {
 			for (int col = 0; col < this.size; col++) {
 				Cell c = this.cells[row][col];
-				if(c.isTypeIntersection()) {
+				if (c.isTypeIntersection()) {
 					System.out.print(" I ");
-				} else if(c.isTypeRoad()) {
+				} else if (c.isTypeRoad()) {
 					System.out.print(" R ");
 				} else {
 					System.out.print(" . ");

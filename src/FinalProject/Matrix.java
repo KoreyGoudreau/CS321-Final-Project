@@ -9,9 +9,10 @@ import java.util.List;
 
 /**
  * The class that is responsible for running the simulation.
- *
+ * <p>
  * You will need to modify the run method to initialize, and run all of your units.
- * */
+ *
+ */
 public class Matrix {
 	public static void run(SimulationInput input) {
 		
@@ -25,7 +26,7 @@ public class Matrix {
 		
 		// Convert all units into threads
 		ArrayList<Thread> threads = new ArrayList<>();
-		for(Unit u : units) {
+		for (Unit u : units) {
 			Thread t = new Thread(u);
 			threads.add(t);
 		}

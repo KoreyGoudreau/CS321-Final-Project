@@ -20,7 +20,7 @@ public class ZigzagStrategy implements RouteStrategy {
 	 * Then the Car moves east until reaching another intersection, where they turn north.
 	 * Then the Car moves until they reach their Destination.
 	 *
-	 * @param current the Cell representing a Car's current position of the grid
+	 * @param current     the Cell representing a Car's current position of the grid
 	 * @param destination the Cell representing a Car's travel Destination
 	 * @return the next Cell the Car should move to
 	 */
@@ -33,40 +33,40 @@ public class ZigzagStrategy implements RouteStrategy {
 		Cell west = current.getWest();
 		
 		// Using Flags, move Car towards a direction until an Intersection is reached
-		if(this.moveNorthFlag) {
-			if(north.isTypeIntersection()) {
+		if (this.moveNorthFlag) {
+			if (north.isTypeIntersection()) {
 				this.moveNorthFlag = false;
 			}
 			return north;
-		} else if(this.moveEastFlag) {
-			if(east.isTypeIntersection()) {
+		} else if (this.moveEastFlag) {
+			if (east.isTypeIntersection()) {
 				this.moveEastFlag = false;
 			}
 			return east;
-		} else if(this.moveSouthFlag) {
-			if(south.isTypeIntersection()) {
+		} else if (this.moveSouthFlag) {
+			if (south.isTypeIntersection()) {
 				this.moveSouthFlag = false;
 			}
 			return south;
-		} else if(this.moveWestFlag) {
-			if(west.isTypeIntersection()) {
+		} else if (this.moveWestFlag) {
+			if (west.isTypeIntersection()) {
 				this.moveWestFlag = false;
 			}
 			return west;
 		}
 		
-		if(this.movingHorizontally) {
+		if (this.movingHorizontally) {
 			
 			// Try to move horizontally first
 			if (current.getCol() < destination.getCol()) {
-				if(east != null && east.canDriveOn()) {
+				if (east != null && east.canDriveOn()) {
 					this.moveEastFlag = true;
 					return east;
 				}
 			}
 			
-			if(current.getCol() > destination.getCol()) {
-				if(west != null && west.canDriveOn()) {
+			if (current.getCol() > destination.getCol()) {
+				if (west != null && west.canDriveOn()) {
 					this.moveWestFlag = true;
 					return west;
 				}
@@ -77,8 +77,8 @@ public class ZigzagStrategy implements RouteStrategy {
 			this.movingHorizontally = false;
 		} else {
 			// Move vertically
-			if(current.getRow() < destination.getRow()) {
-				if(north != null && north.canDriveOn()) {
+			if (current.getRow() < destination.getRow()) {
+				if (north != null && north.canDriveOn()) {
 					this.moveNorthFlag = true;
 					return north;
 				}
@@ -95,18 +95,18 @@ public class ZigzagStrategy implements RouteStrategy {
 			this.movingHorizontally = true;
 		}
 		
-		if(this.movingHorizontally) {
+		if (this.movingHorizontally) {
 			
 			// Try to pick a horizontal direction
 			if (current.getCol() < destination.getCol()) {
-				if(east != null && east.canDriveOn()) {
+				if (east != null && east.canDriveOn()) {
 					this.moveEastFlag = true;
 					return east;
 				}
 			}
 			
-			if(current.getCol() > destination.getCol()) {
-				if(west != null && west.canDriveOn()) {
+			if (current.getCol() > destination.getCol()) {
+				if (west != null && west.canDriveOn()) {
 					this.moveWestFlag = true;
 					return west;
 				}
@@ -117,8 +117,8 @@ public class ZigzagStrategy implements RouteStrategy {
 			this.movingHorizontally = false;
 			
 			// Try to pick a vertical direction
-			if(current.getRow() < destination.getRow()) {
-				if(north != null && north.canDriveOn()) {
+			if (current.getRow() < destination.getRow()) {
+				if (north != null && north.canDriveOn()) {
 					this.moveNorthFlag = true;
 					return north;
 				}
@@ -136,8 +136,8 @@ public class ZigzagStrategy implements RouteStrategy {
 		} else {
 			
 			// Try to pick a vertical direction
-			if(current.getRow() < destination.getRow()) {
-				if(north != null && north.canDriveOn()) {
+			if (current.getRow() < destination.getRow()) {
+				if (north != null && north.canDriveOn()) {
 					this.moveNorthFlag = true;
 					return north;
 				}
@@ -155,14 +155,14 @@ public class ZigzagStrategy implements RouteStrategy {
 			
 			// Try to pick a horizontal direction
 			if (current.getCol() < destination.getCol()) {
-				if(east != null && east.canDriveOn()) {
+				if (east != null && east.canDriveOn()) {
 					this.moveEastFlag = true;
 					return east;
 				}
 			}
 			
-			if(current.getCol() > destination.getCol()) {
-				if(west != null && west.canDriveOn()) {
+			if (current.getCol() > destination.getCol()) {
+				if (west != null && west.canDriveOn()) {
 					this.moveWestFlag = true;
 					return west;
 				}

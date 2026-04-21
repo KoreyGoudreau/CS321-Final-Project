@@ -83,5 +83,6 @@ public class Stoplight extends Unit implements StoplightSubject {
 	 * No Statistics submitted.
 	 */
 	@Override
-	public void submitStatistics() {}
+	public void submitStatistics() {
+	}
 }

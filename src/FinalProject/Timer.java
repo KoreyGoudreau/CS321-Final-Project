@@ -15,6 +15,6 @@ public class Timer {
 	 */
 	public static int getTime() {
 		long timeInMilliseconds = System.currentTimeMillis() - startTime;
-		return (int)(timeInMilliseconds / 1000);
+		return (int) (timeInMilliseconds / 1000);
 	}
 }

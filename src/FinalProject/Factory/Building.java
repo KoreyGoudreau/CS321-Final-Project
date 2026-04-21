@@ -24,7 +24,7 @@ public abstract class Building {
 	/**
 	 * Cars can interact with Buildings by moving to a Cell on the Grid of type "building" and then using this method.
 	 *
-	 * @param car the Car interacting with this building
+	 * @param car  the Car interacting with this building
 	 * @param time the time at which this interaction occurred
 	 */
 	public abstract void interact(Car car, int time);

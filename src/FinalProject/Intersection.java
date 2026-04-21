@@ -1,5 +1,7 @@
-package FinalProject.Observer;
+package FinalProject;
 
+import FinalProject.Observer.CarLine;
+import FinalProject.Observer.Stoplight;
 import Skeleton.SimulationInput;
 
 import java.util.concurrent.Semaphore;

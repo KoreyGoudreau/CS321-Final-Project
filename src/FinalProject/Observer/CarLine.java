@@ -1,6 +1,7 @@
 package FinalProject.Observer;
 
 import FinalProject.Car;
+import FinalProject.Intersection;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class CarLine implements StoplightObserver {
 	/**
 	 * Only 1 Car Thread can add itself to the CarLine at a time.
 	 * This prevents data corruption if 2 Cars reach an intersection at the same time and both try to add themselves into the same CarLine.
-	 * 
+	 *
 	 * @param car the Car being added
 	 */
 	public synchronized void addCar(Car car) {
@@ -43,7 +44,7 @@ public class CarLine implements StoplightObserver {
 	private synchronized void moveFirstCar() {
 		
 		// Move cars when the light is green and facing the same direction as this Carline
-		if(this.stoplight.isGreenForDirection(this.direction) && !this.carLine.isEmpty()) {
+		if (this.stoplight.isGreenForDirection(this.direction) && !this.carLine.isEmpty()) {
 			
 			// Moves the first car in the line
 			Car car = this.carLine.getFirst();

@@ -15,7 +15,7 @@ public class HorizontalFirstStrategy implements RouteStrategy {
 	 * If the Car cannot move in a way that brings it closer to the Destination, it will pick a vertical direction to move towards until hitting an intersection.
 	 * However, if there is no moveable vertical direction it will try to do so with a horizontal direction.
 	 *
-	 * @param current the Cell representing a Car's current position of the grid
+	 * @param current     the Cell representing a Car's current position of the grid
 	 * @param destination the Cell representing a Car's travel Destination
 	 * @return the next Cell the Car should move to
 	 */
@@ -28,23 +28,23 @@ public class HorizontalFirstStrategy implements RouteStrategy {
 		Cell west = current.getWest();
 		
 		// Using Flags, move Car towards a direction until an Intersection is reached
-		if(this.moveNorthFlag) {
-			if(north.isTypeIntersection()) {
+		if (this.moveNorthFlag) {
+			if (north.isTypeIntersection()) {
 				this.moveNorthFlag = false;
 			}
 			return north;
-		} else if(this.moveEastFlag) {
-			if(east.isTypeIntersection()) {
+		} else if (this.moveEastFlag) {
+			if (east.isTypeIntersection()) {
 				this.moveEastFlag = false;
 			}
 			return east;
-		} else if(this.moveSouthFlag) {
-			if(south.isTypeIntersection()) {
+		} else if (this.moveSouthFlag) {
+			if (south.isTypeIntersection()) {
 				this.moveSouthFlag = false;
 			}
 			return south;
-		} else if(this.moveWestFlag) {
-			if(west.isTypeIntersection()) {
+		} else if (this.moveWestFlag) {
+			if (west.isTypeIntersection()) {
 				this.moveWestFlag = false;
 			}
 			return west;
@@ -52,13 +52,13 @@ public class HorizontalFirstStrategy implements RouteStrategy {
 		
 		// Try to move horizontally first
 		if (current.getCol() < destination.getCol()) {
-			if(east != null && east.canDriveOn()) {
+			if (east != null && east.canDriveOn()) {
 				return east;
 			}
 		}
 		
-		if(current.getCol() > destination.getCol()) {
-			if(west != null && west.canDriveOn()) {
+		if (current.getCol() > destination.getCol()) {
+			if (west != null && west.canDriveOn()) {
 				return west;
 			}
 			
@@ -66,29 +66,29 @@ public class HorizontalFirstStrategy implements RouteStrategy {
 		
 		// Move Car vertically if it cannot move horizontally
 		if (current.getRow() < destination.getRow()) {
-			if(north != null && north.canDriveOn()) {
+			if (north != null && north.canDriveOn()) {
 				return north;
 			}
 		}
 		
 		if (current.getRow() > destination.getRow()) {
-			if(south != null && south.canDriveOn()) {
+			if (south != null && south.canDriveOn()) {
 				return south;
 			}
 		}
 		
 		// If a Car cannot move anywhere, then pick a vertical direction to move towards until an Intersection is reached
 		// If there is no valid vertical direction, then pick a horizontal direction to move towards until an Intersection is reached
-		if(north != null && north.canDriveOn()) {
+		if (north != null && north.canDriveOn()) {
 			this.moveNorthFlag = true;
 			return north;
-		} else if(south != null && south.canDriveOn()) {
+		} else if (south != null && south.canDriveOn()) {
 			this.moveSouthFlag = true;
 			return south;
-		} else if(east != null && east.canDriveOn()) {
+		} else if (east != null && east.canDriveOn()) {
 			this.moveEastFlag = true;
 			return east;
-		} else if(west != null && west.canDriveOn()) {
+		} else if (west != null && west.canDriveOn()) {
 			this.moveWestFlag = true;
 			return west;
 		}

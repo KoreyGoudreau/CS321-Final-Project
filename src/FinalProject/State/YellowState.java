@@ -18,7 +18,7 @@ public class YellowState implements StoplightState {
 	public void action(Stoplight stoplight) {
 		this.counter++;
 		
-		if(this.counter >= stoplight.getDuration()) {
+		if (this.counter >= stoplight.getDuration()) {
 			stoplight.rotateDirection();
 			stoplight.setState(new GreenState());
 			stoplight.notifyObservers();
