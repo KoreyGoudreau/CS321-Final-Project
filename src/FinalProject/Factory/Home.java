@@ -1,8 +1,9 @@
 package FinalProject.Factory;
 
-import FinalProject.Observer.Car;
+import FinalProject.Car;
 import FinalProject.Cell;
-import FinalProject.Timer;
+import Skeleton.Statistic;
+import Skeleton.StatisticsContainer;
 
 public class Home extends Building{
 	
@@ -11,12 +12,14 @@ public class Home extends Building{
 	}
 	
 	/**
-	 * Prints out a message saying the name and time that a Car leaves this building. 
+	 * Adds a message into a Car's log (from Statistics) when and where a Car left this building.
 	 *
 	 * @param car the Car interacting with this building
 	 * @param time the time at which this interaction occurred
 	 */
 	public void interact(Car car, int time) {
-		System.out.println("Car \"" + car.getName() + "\" is exiting Home \"" + this.buildingName + "\" at time " + Timer.getTime() + " (row = " + this.cell.getRow() + ", col = " + this.cell.getCol() + ")" + ".");
+		// Add a message into Car's statistic CarLog
+		Statistic stat = StatisticsContainer.getInstance(car.getSimInput()).getComponent(car.getName()).getStatistic("CarLog");
+		stat.addValue("(Time = " + time + ", row = " + this.cell.getRow() + ", col = " + this.cell.getCol() + ", Action = Exiting Home \"" + this.getBuildingName() + "\")");
 	}
 }

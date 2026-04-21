@@ -1,5 +1,7 @@
 package FinalProject.Observer;
 
+import FinalProject.Car;
+
 import java.util.ArrayList;
 
 public class CarLine implements StoplightObserver {
@@ -21,7 +23,7 @@ public class CarLine implements StoplightObserver {
 	
 	/**
 	 * Only 1 Car Thread can add itself to the CarLine at a time.
-	 * This prevents data corruption if 2 Cars reach an intersection at the same time.
+	 * This prevents data corruption if 2 Cars reach an intersection at the same time and both try to add themselves into the same CarLine.
 	 * 
 	 * @param car the Car being added
 	 */
@@ -34,7 +36,9 @@ public class CarLine implements StoplightObserver {
 	}
 	
 	/**
-	 * Moves the first Car in the Carline. Only 1 car can move at a time.
+	 * Allows the first Car in the Carline to cross the intersection.
+	 * Only 1 car can move at a time.
+	 * This is achieved by having the Car currently crossing acquire this intersection's Semaphore and releasing it after they move once.
 	 */
 	private synchronized void moveFirstCar() {
 		
@@ -56,19 +60,19 @@ public class CarLine implements StoplightObserver {
 	}
 	
 	/**
-	 * Called by a Car after it moves into the Intersection.
+	 * Called by a Car that is crossing the intersection after it moves once.
 	 */
 	public void notifyCarMoved() {
 		
 		// Release the intersection lock
 		this.intersection.getPassingCarSemaphore().release();
 		
+		// Move the next Car in the CarLine
 		moveFirstCar();
 	}
 	
 	@Override
 	public void update(String direction, String lightColor) {
-		
 		moveFirstCar();
 	}
 }

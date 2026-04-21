@@ -15,7 +15,7 @@ public class Stoplight extends Unit implements StoplightSubject {
 	private final ArrayList<StoplightObserver> observers;
 	private final int duration;
 	
-	public Stoplight(Intersection intersection, SimulationInput input) {
+	public Stoplight(SimulationInput input) {
 		super("Stoplight", input);
 		
 		this.duration = input.getIntegerInput("StopLightDuration");

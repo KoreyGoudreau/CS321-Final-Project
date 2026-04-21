@@ -105,8 +105,7 @@ public class Grid {
 	 * Prints out the grid visually.
 	 * Each cell of type "intersection" is represented as I.
 	 * Each cell of type "road" is represented as R.
-	 * Each cell of type "building" is represented as B.
-	 * Each cell of type "none" is represented as ".".
+	 * Each cell of type "none" is represented as a period.
 	 */
 	public void printGrid() {
 		System.out.println("Printing out a Grid of size " + this.size + ":");
@@ -118,8 +117,6 @@ public class Grid {
 					System.out.print(" I ");
 				} else if(c.isTypeRoad()) {
 					System.out.print(" R ");
-				} else if(c.isTypeBuilding()) {
-					System.out.print(" B ");
 				} else {
 					System.out.print(" . ");
 				}

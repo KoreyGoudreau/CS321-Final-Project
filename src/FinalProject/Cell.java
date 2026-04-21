@@ -1,13 +1,12 @@
 package FinalProject;
 
-import FinalProject.Factory.Building;
 import FinalProject.Observer.Intersection;
 
 public class Cell {
 	
 	private final int row;
 	private final int col;
-	private final String type;   // "road", "intersection", "building" or "none"
+	private final String type;   // "road", "intersection" or "none"
 	private final Grid grid;
 	
 	private Intersection intersection = null;
@@ -47,13 +46,12 @@ public class Cell {
 	}
 	
 	/**
-	 * Assign to this Cell a Building if this Cell is of type "building".
-	 * Returns true if successful, false if this Cell is not of type "building".
+	 * Returns true if this Cell is of type "road" and is not on a Cell adjacent to an Intersection.
+	 * Buildings cannot be placed on a Cell next to an Intersection.
 	 *
-	 * @param building the assigned Building
-	 * @return boolean value representing the success of this function
+	 * @return boolean
 	 */
-	public boolean setBuilding(Building building) {
+	public boolean canSetBuilding() {
 		return this.isTypeRoad() && this.noAdjacentIntersections();
 	}
 	
@@ -65,17 +63,13 @@ public class Cell {
 		return "intersection".equals(this.type);
 	}
 	
-	public boolean isTypeBuilding(){
-		return "building".equals(this.type);
-	}
-	
 	/**
-	 * Cars can drive on Cell of type "road", "intersection" and "building".
+	 * Cars can drive on Cell of type "road" or "intersection".
 	 *
-	 * @return if the given Cell's type is one of the three mentioned
+	 * @return boolean
 	 */
 	public boolean canDriveOn() {
-		return this.isTypeRoad() || this.isTypeBuilding() || this.isTypeIntersection();
+		return this.isTypeRoad() || this.isTypeIntersection();
 	}
 	
 	public Cell getNorth() {

@@ -4,7 +4,6 @@ import FinalProject.Factory.Building;
 import FinalProject.Factory.BuildingFactory;
 import FinalProject.Factory.Home;
 import FinalProject.Factory.Destination;
-import FinalProject.Observer.Car;
 import FinalProject.Observer.Stoplight;
 import Skeleton.SimulationInput;
 
@@ -51,7 +50,7 @@ public class City {
 			Building building;
 			if(type.equals("destination")) {
 				
-				// Setup a Destination's opening time
+				// Set up a Destination's opening time
 				int openingTime = Integer.parseInt(openingTimes.get(destinationIndex));
 				destinationIndex++;
 				
@@ -65,8 +64,8 @@ public class City {
 				System.out.println("Setting up Home \"" + building.getBuildingName() + "\" (row = " + row + ", col = " + col + ").");
 			}
 			
-			// Assign the instantiated Building to the current cell in the loop
-			if(!cell.setBuilding(building)) {
+			// Assign the instantiated Building if the Cell associated to its location on the Grid allows Buildings
+			if(!cell.canSetBuilding()) {
 				throw new IllegalArgumentException("Error: Cannot assign a Building to (row = " + cell.getRow() + ", col = " + cell.getCol() + ").");
 			}
 			this.buildings.add(building);
@@ -99,7 +98,7 @@ public class City {
 			ArrayList<String> buildingData = input.getInput(buildingName);
 			
 			// Example: "Building1" maps to ["0","2","Alex","Bob"]
-			// Where "Alex" and "Bob" are the names of the Cars assigned the Building: "Building1"
+			// Where "Alex" and "Bob" are the names of the Cars assigned the Building named "Building1"
 			for (int x = 2; x < buildingData.size(); x++) {
 				
 				String name = buildingData.get(x);

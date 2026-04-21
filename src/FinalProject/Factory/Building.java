@@ -1,6 +1,6 @@
 package FinalProject.Factory;
 
-import FinalProject.Observer.Car;
+import FinalProject.Car;
 import FinalProject.Cell;
 
 public abstract class Building {
@@ -10,7 +10,6 @@ public abstract class Building {
 	
 	public Building(Cell cell, String buildingName) {
 		this.cell = cell;
-		this.cell.setBuilding(this);
 		this.buildingName = buildingName;
 	}
 	

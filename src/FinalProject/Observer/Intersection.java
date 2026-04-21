@@ -14,7 +14,7 @@ public class Intersection {
 	private final Semaphore passingCarSemaphore;
 	
 	public Intersection(SimulationInput input) {
-		this.stoplight = new Stoplight(this, input);
+		this.stoplight = new Stoplight(input);
 		this.northCarLine = new CarLine(this, "north");
 		this.eastCarLine = new CarLine(this, "east");
 		this.southCarLine = new CarLine(this, "south");
