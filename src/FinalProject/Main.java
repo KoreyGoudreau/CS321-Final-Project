@@ -51,9 +51,32 @@ public class Main {
 		*/
 		
 		SimulationInput si = new SimulationInput();
-		si.addInput("MinutesOfTime", List.of("1440")); // Number of minutes in a day = simulation time
-		si.addInput("IntersectionsPerRow", List.of("5")); // Determines grid size (with RoadLength)
-		si.addInput("RoadLength", List.of("3")); // Determines grid size (with IntersectionsPerRow)
+		
+		// Setup simulation
+		si.addInput("Time", List.of("60")); // Run time in number of minutes (the Skeleton code Unit.java uses seconds!!!)
+		si.addInput("ActionsPerSecond", List.of("1"));
+		
+		// Setup the Grid
+		si.addInput("GridIntersectionsPerRow", List.of("4"));
+		si.addInput("GridRoadLength", List.of("3"));
+		
+		// Setup Stoplights
+		si.addInput("StopLightDuration", List.of("4")); // Number of minutes before stoplight switches state
+		
+		// Setup Cars
+		si.addInput("OwnerNames", List.of("Alex", "Bob", "Caleb", "Derek", "Eric"));
+		si.addInput("CarSpeeds", List.of("1", "2", "1", "3", "1")); // Minutes it takes for a car to move 1 position
+		si.addInput("RouteStrategies", List.of("verticalfirst", "horizontalfirst", "zigzag", "verticalfirst", "zigzag"));
+		
+		// Setup Buildings
+		si.addInput("BuildingNames", List.of("Home1", "Destination1", "Home2"));
+		si.addInput("BuildingTypes", List.of("home", "destination", "home"));
+		si.addInput("OpeningTimes", List.of("30"));
+		
+		// Setup each building's location on the grid, then map Cars to the Building (using OwnerNames)
+		si.addInput("Home1", List.of("0", "2", "Alex", "Bob", "Caleb"));
+		si.addInput("Destination1", List.of("8", "6", "Alex", "Bob", "Caleb", "Derek", "Eric"));
+		si.addInput("Home2", List.of("10", "12", "Derek", "Eric"));
 		
 		// Run the simulation
 		StatisticsContainer stats = runTest(si);

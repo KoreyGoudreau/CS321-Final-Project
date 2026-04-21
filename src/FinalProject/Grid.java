@@ -1,169 +1,131 @@
 package FinalProject;
 
-import java.util.ArrayList;
-import java.util.List;
+import FinalProject.Observer.Intersection;
+import FinalProject.Observer.Stoplight;
+import Skeleton.SimulationInput;
 
+import java.util.ArrayList;
+
+// Keeps track of the cells and which are roads, buildings and intersections
 public class Grid {
-	private final int intersectionsPerRow;
-	private final int roadLength;
-	private final int size;
 	
-	private GridCell[][] cells;
+	private final Cell[][] cells;
+	int size;
 	
-	// Track cars on the grid, each cell can hold up to 2 cars
-	private List<Car>[][] carMap;
-	
-	public Grid(int intersectionsPerRow, int roadLength) {
-		this.intersectionsPerRow = intersectionsPerRow;
-		this.roadLength = roadLength;
-		this.size = intersectionsPerRow * (roadLength + 1);
+	public Grid(SimulationInput input) {
 		
-		// Initialize roads and intersections on the grid
-		this.cells = new GridCell[this.size][this.size];
+		// Retrieve size inputs
+		int intersectionsPerRow = input.getIntegerInput("GridIntersectionsPerRow");
+		int roadLength = input.getIntegerInput("GridRoadLength");
+		
+		// Ensure minimum values are good
+		if(intersectionsPerRow < 2) {
+			throw new IllegalArgumentException("Error: GridIntersectionsPerRow has minimum value of 2.");
+		} else if(roadLength < 3) {
+			throw new IllegalArgumentException("Error: GridRoadLength has minimum value of 3.");
+		}
+		
+		// Calculate grid size from inputs
+		this.size = roadLength * (intersectionsPerRow - 1) + intersectionsPerRow;
+		
+		// Initialize all cells in the grid
+		this.cells = new Cell[this.size][this.size];
+		
 		for (int row = 0; row < this.size; row++) {
+			
 			for (int col = 0; col < this.size; col++) {
 				
-				// If a cell has position (n,x), where n and x are multiples of (roadLength + 1), then the cell is an intersection between 2 roads.
-				// If a cell has position (n,x) where either n or x are multiples of (roadLength + 1), then the cell is a road.
-				// If none of the above applies, then the cell is empty.
-				if (row % (roadLength + 1) == 0 && col % (roadLength + 1) == 0) {
-					this.cells[row][col] = new GridCell(row, col, "intersection");
-				} else if ((row % (roadLength + 1) == 0) || (col % (roadLength + 1) == 0)) {
-					this.cells[row][col] = new GridCell(row, col, "road");
+				boolean rowContainsIntersections = row % (roadLength + 1) == 0;
+				boolean colContainsIntersections = col % (roadLength + 1) == 0;
+				
+				if(rowContainsIntersections && colContainsIntersections) {
+					
+					// Setup Cell of type "intersection"
+					Cell cell = new Cell(row, col, "intersection", this);
+					this.cells[row][col] = cell;
+					
+					// Create and assign an Intersection to the Cell
+					Intersection intersection = new Intersection(input);
+					if(!cell.setIntersection(intersection)) {
+						throw new IllegalArgumentException("Error: Cannot assign an Intersection to row = " + cell.getRow() + " and col = " + cell.getCol() + ".");
+					}
+					
+				} else if(rowContainsIntersections || colContainsIntersections) {
+					
+					// Setup Cell of type "road"
+					this.cells[row][col] = new Cell(row, col, "road", this);
 				} else {
-					this.cells[row][col] = new GridCell(row, col, null);
+					// Setup Cell of type "none"
+					this.cells[row][col] = new Cell(row, col, "none", this);
 				}
 			}
 		}
 		
-		// Setup carMap with empty Array Lists
-		this.carMap = new List[this.size][this.size];
-		for (int row = 0; row < this.size; row++) {
-			for (int col = 0; col < this.size; col++) {
-				this.carMap[row][col] = new ArrayList<>();
-			}
+		// Print out the grid layout visually
+		this.printGrid();
+	}
+	
+	/**
+	 * Retrieve the Cell from the given row and col in the grid.
+	 * Returns null if the row or col inputs are out of bounds.
+	 * The row and col values must be between 0 and (n-1) inclusively, where n is the size of this grid.
+	 *
+	 * @param row row of the Cell being requested
+	 * @param col column of the Cell being requested
+	 * @return the requested Cell, or null value
+	 */
+	public Cell getCell(int row, int col) {
+		if(row < 0 || col < 0 || row >= this.size || col >= this.size) {
+			return null;
 		}
-	}
-	
-	public void setCell(int row, int col, String type) {
-		this.cells[row][col].setType(type);
-	}
-	
-	public GridCell getCell(int row, int col) {
 		return this.cells[row][col];
 	}
 	
-	public int getSize() {
-		return this.size;
-	}
-	
 	/**
-	 * Returns true if a car is present on the given cell with the same direction provided.
-	 * If it returns true, then that means the cell cannot accept another car going that direction.
+	 * Searches through all the Cells in the Grid.
+	 * Finds all the cells of type "intersection".
+	 * Then finds that Cell's assigned intersection.
+	 * Then retrieves that intersection's assigned Stoplight to add to the output array.
 	 *
-	 * @param row
-	 * @param col
-	 * @param direction
-	 * @return
+	 * @return an ArrayList containing all the Stoplights in the grid
 	 */
-	public boolean carPresentSameDirection(int row, int col, String direction) {
-		boolean output = false;
-		for(Car car : this.carMap[row][col]){
-			if(car.getFacingDirection().equals(direction)){
-				output = true;
+	public ArrayList<Stoplight> getStoplights() {
+		ArrayList<Stoplight> stoplights = new ArrayList<>();
+		for (Cell[] cell : this.cells) {
+			for (int col = 0; col < this.cells.length; col++) {
+				if(cell[col].isTypeIntersection()) {
+					stoplights.add(cell[col].getIntersection().getStoplight());
+				}
 			}
 		}
-		return output;
-	}
-	
-	public boolean canEnter(int row, int col, String direction) {
-		
-		// Retrieve the list of cars at the given cell on the grid
-		List<Car> cars = this.carMap[row][col];
-		
-		if(cars.isEmpty()) {
-			return true;
-		}
-		
-		// Prevents there being more than 2 cars on the same cell
-		if(cars.size() >= 2) {
-			return false;
-		}
-		
-		// Return true if there's 1 car on the cell facing the opposite direction
-		String otherCarDirection = cars.get(0).getFacingDirection();
-		return areOppositeDirections(direction, otherCarDirection);
-	}
-	
-	private boolean areOppositeDirections(String firstDirection, String secondDirection) {
-		if(firstDirection.equals("north") && secondDirection.equals("south")) {
-			return true;
-		} else if(firstDirection.equals("south") && secondDirection.equals("north")){
-			return true;
-		} else if(firstDirection.equals("east")  && secondDirection.equals("west")) {
-			return true;
-		} else if (firstDirection.equals("west")  && secondDirection.equals("east")){
-			return true;
-		}
-		return false;
+		return stoplights;
 	}
 	
 	/**
-	 * Returns true if successfully set car.
-	 *
-	 * @param car
-	 * @param row
-	 * @param col
-	 * @return
+	 * Prints out the grid visually.
+	 * Each cell of type "intersection" is represented as I.
+	 * Each cell of type "road" is represented as R.
+	 * Each cell of type "building" is represented as B.
+	 * Each cell of type "none" is represented as ".".
 	 */
-	public boolean setCar(Car car, int row, int col) {
-		if(this.canEnter(row, col, car.getFacingDirection())) {
-			this.carMap[row][col].add(car);
-			return true;
+	public void printGrid() {
+		System.out.println("Printing out a Grid of size " + this.size + ":");
+		
+		for (int row = 0; row < this.size; row++) {
+			for (int col = 0; col < this.size; col++) {
+				Cell c = this.cells[row][col];
+				if(c.isTypeIntersection()) {
+					System.out.print(" I ");
+				} else if(c.isTypeRoad()) {
+					System.out.print(" R ");
+				} else if(c.isTypeBuilding()) {
+					System.out.print(" B ");
+				} else {
+					System.out.print(" . ");
+				}
+			}
+			System.out.println();
 		}
-		return false;
-	}
-	
-	public boolean moveCar(Car car, int previousRowPosition, int previousColPosition, String moveDirection) {
-		int nextRowPosition = previousRowPosition;
-		int nextColPosition = previousColPosition;
-		
-		// Move car to new position
-		if(moveDirection.equals("north")) { // Move North
-			nextRowPosition++;
-		} else if (moveDirection.equals("east")) { // Move East
-			nextColPosition++;
-		} else if (moveDirection.equals("south")) { // Move South
-			nextRowPosition--;
-		} else if (moveDirection.equals("west")) { // Move West
-			nextColPosition--;
-		}
-		
-		// Prevent moving car out of the grid
-		if (nextRowPosition < 0 || nextRowPosition >= this.size || nextColPosition < 0 || nextColPosition >= this.size) {
-			return false;
-		}
-		
-		
-		if (canEnter(nextRowPosition, nextRowPosition, moveDirection)) {
-			
-			// Move car out of the current position on the grid
-			carMap[previousRowPosition][previousColPosition].remove(car);
-			
-			// Move car to new position
-			carMap[nextRowPosition][nextRowPosition].add(car);
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * Called once per simulation minute.
-	 * Cars and buildings interact with this grid.
-	 */
-	public void update() {
-		// ADD CODE HERE
+		System.out.println();
 	}
 }
