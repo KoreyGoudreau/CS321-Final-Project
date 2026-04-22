@@ -1,3 +1,9 @@
+/**
+ *  Name: Korey Goudreau
+ *  Date: April 24 2026
+ *  Description: A City Traffic Simulator.
+ */
+
 package FinalProject;
 
 import FinalProject.Skeleton.SimulationInput;
