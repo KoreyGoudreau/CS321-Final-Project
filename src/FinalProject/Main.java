@@ -1,7 +1,7 @@
 package FinalProject;
 
-import Skeleton.SimulationInput;
-import Skeleton.StatisticsContainer;
+import FinalProject.Skeleton.SimulationInput;
+import FinalProject.Skeleton.StatisticsContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class Main {
 	public static void main(String[] args) {
 		/*
 		You can either prepare your input as an array, or add it directly to your
-		Skeleton.SimulationInput object (see below).
+		FinalProject.Skeleton.SimulationInput object (see below).
 
 			ArrayList<ArrayList<String>> input = new ArrayList<ArrayList<String>>();
 			input.add(
@@ -53,7 +53,7 @@ public class Main {
 		SimulationInput si = new SimulationInput();
 		
 		// Setup simulation
-		si.addInput("Time", List.of("60")); // Run time in number of minutes (the Skeleton code Unit.java uses seconds!!!)
+		si.addInput("Time", List.of("60")); // Run time in number of minutes (the FinalProject.Skeleton code Unit.java uses seconds!!!)
 		si.addInput("ActionsPerSecond", List.of("1"));
 		
 		// Setup the Grid
@@ -90,7 +90,7 @@ public class Main {
 		*/
 		
 		// You can change the input, and then reset the statistics singleton with:
-		// input = new Skeleton.SimulationInput();
+		// input = new FinalProject.Skeleton.SimulationInput();
 		// // ... Add input
 		// si.resetInstance(input);
 	}

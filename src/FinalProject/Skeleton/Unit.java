@@ -1,4 +1,4 @@
-package Skeleton;
+package FinalProject.Skeleton;
 
 import java.lang.Math;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +19,7 @@ public abstract class Unit implements Runnable {
 	}
 
 	/**
-	 * General constructor for the Skeleton.Unit.
+	 * General constructor for the FinalProject.Skeleton.Unit.
 	 * 
 	 * @param name The name of the unit.
 	 * @param input The input settings.
@@ -28,7 +28,7 @@ public abstract class Unit implements Runnable {
 		this.name = name;
 		this.input = input;
 
-		// Get the statistics object for this Skeleton.Unit
+		// Get the statistics object for this FinalProject.Skeleton.Unit
 		this.stats = StatisticsContainer.getInstance().addComponent(this.getName());
 
 		// Add a statistic for the number of active units performing an action
@@ -47,7 +47,7 @@ public abstract class Unit implements Runnable {
 	 * 		Gathering produce from a producer.
 	 * 		...
 	 * 
-	 * Your Skeleton.Unit may do a portion of a larger action as well
+	 * Your FinalProject.Skeleton.Unit may do a portion of a larger action as well
 	 * at this stage and hold a state of where it is along the path.
 	 * 
 	 * The unit could also attempt it all at once, but consider
@@ -60,7 +60,7 @@ public abstract class Unit implements Runnable {
 	public abstract void performAction();
 
 	/**
-	 * Submit some statistics to the Skeleton.Statistics object.
+	 * Submit some statistics to the FinalProject.Skeleton.Statistics object.
 	 * 
 	 * This should handle sending statistics that don't depend on
 	 * what happens in the performAction method. In there, you may
@@ -70,12 +70,12 @@ public abstract class Unit implements Runnable {
 	 * */
 	public abstract void submitStatistics();
 
-	/** Returns the Skeleton.SimulationInput **/
+	/** Returns the FinalProject.Skeleton.SimulationInput **/
 	public SimulationInput getSimInput() {
 		return this.input;
 	}
 
-	/** Returns the Skeleton.Unit's name. **/
+	/** Returns the FinalProject.Skeleton.Unit's name. **/
 	public String getName() {
 		return this.name;
 	}
@@ -87,11 +87,11 @@ public abstract class Unit implements Runnable {
 
 
 	/**
-	 * This is the method which runs the Skeleton.Unit for `Time` seconds (specified) in
+	 * This is the method which runs the FinalProject.Skeleton.Unit for `Time` seconds (specified) in
 	 * the input and performs `ActionsPerSecond` actions/second during this time.
 	 * 
 	 * The run method also slighlty handles drift in timing. This means that the
-	 * amount of time your methods take will impact the amount of time the Skeleton.Unit
+	 * amount of time your methods take will impact the amount of time the FinalProject.Skeleton.Unit
 	 * waits until it attempts to perform an action again.
 	 * 
 	 * If you override this method in a subclass, ensure that all of the
@@ -117,7 +117,7 @@ public abstract class Unit implements Runnable {
 			long actionStart = System.currentTimeMillis();
 
 			/* Perform whatever this unit needs to do, and submit the statistics
-			   to the Skeleton.Statistics singleton container. You can modify this to submit
+			   to the FinalProject.Skeleton.Statistics singleton container. You can modify this to submit
 			   statistics while performing the action. You likely want do it in
 			   your subclass. */
 			Statistic stat = this.getStats().getStatistic("ActiveUnits");
@@ -134,7 +134,7 @@ public abstract class Unit implements Runnable {
 				You might find your methods taking too long, then you'll actions
 				will be constantly firing with no wait. The drift subtracted below
 				could be a good candidate for a statistic as it acts as a proxy
-				measrement for the amount of time your Skeleton.Unit takes to peform it's
+				measrement for the amount of time your FinalProject.Skeleton.Unit takes to peform it's
 				actions.
 			*/
 			try {

@@ -1,4 +1,4 @@
-package Skeleton;
+package FinalProject.Skeleton;
 
 import java.util.HashMap;
 

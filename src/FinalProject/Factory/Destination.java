@@ -2,8 +2,8 @@ package FinalProject.Factory;
 
 import FinalProject.Car;
 import FinalProject.Cell;
-import Skeleton.Statistic;
-import Skeleton.StatisticsContainer;
+import FinalProject.Skeleton.Statistic;
+import FinalProject.Skeleton.StatisticsContainer;
 
 public class Destination extends Building {
 	int openingTime;

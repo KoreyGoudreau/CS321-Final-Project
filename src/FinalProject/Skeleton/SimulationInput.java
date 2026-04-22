@@ -1,8 +1,7 @@
-package Skeleton;
+package FinalProject.Skeleton;
 
 import java.lang.RuntimeException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class SimulationInput {
 	}
 
 	/**
-	 * The primary constructor for the Skeleton.SimulationInput object.
+	 * The primary constructor for the FinalProject.Skeleton.SimulationInput object.
 	 * 
 	 * @param input The input in the form of an array of string arrays.
 	 * */

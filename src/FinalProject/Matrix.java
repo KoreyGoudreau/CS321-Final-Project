@@ -1,7 +1,7 @@
 package FinalProject;
 
-import Skeleton.SimulationInput;
-import Skeleton.Unit;
+import FinalProject.Skeleton.SimulationInput;
+import FinalProject.Skeleton.Unit;
 
 import java.lang.Thread;
 import java.util.ArrayList;

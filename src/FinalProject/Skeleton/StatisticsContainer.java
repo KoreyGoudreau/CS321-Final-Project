@@ -1,12 +1,12 @@
-package Skeleton;
+package FinalProject.Skeleton;
 
 import java.util.LinkedHashMap;
 
 /**
- * Singleton object for all statistics. At this level, we have one set of Skeleton.Statistics
- * for each Skeleton.Unit. The name of the object is the key used here in the HashMap.
+ * Singleton object for all statistics. At this level, we have one set of FinalProject.Skeleton.Statistics
+ * for each FinalProject.Skeleton.Unit. The name of the object is the key used here in the HashMap.
  *
- * See the submitStatistics method in the Robot, and the Skeleton.Unit to see how
+ * See the submitStatistics method in the Robot, and the FinalProject.Skeleton.Unit to see how
  * you should create, and add statistics.
  * */
 

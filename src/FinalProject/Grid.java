@@ -1,7 +1,7 @@
 package FinalProject;
 
 import FinalProject.Observer.Stoplight;
-import Skeleton.SimulationInput;
+import FinalProject.Skeleton.SimulationInput;
 
 import java.util.ArrayList;
 

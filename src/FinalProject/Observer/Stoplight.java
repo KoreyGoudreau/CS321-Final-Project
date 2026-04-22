@@ -2,8 +2,8 @@ package FinalProject.Observer;
 
 import FinalProject.State.GreenState;
 import FinalProject.State.StoplightState;
-import Skeleton.Unit;
-import Skeleton.SimulationInput;
+import FinalProject.Skeleton.Unit;
+import FinalProject.Skeleton.SimulationInput;
 
 import java.util.ArrayList;
 import java.util.Random;

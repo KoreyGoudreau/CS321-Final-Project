@@ -5,7 +5,7 @@ import FinalProject.Factory.BuildingFactory;
 import FinalProject.Factory.Home;
 import FinalProject.Factory.Destination;
 import FinalProject.Observer.Stoplight;
-import Skeleton.SimulationInput;
+import FinalProject.Skeleton.SimulationInput;
 
 import java.util.ArrayList;
 

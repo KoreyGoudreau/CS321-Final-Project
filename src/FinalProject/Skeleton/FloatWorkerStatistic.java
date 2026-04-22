@@ -1,8 +1,8 @@
-package Skeleton;
+package FinalProject.Skeleton;
 
 /**
  * Use this as a general class for holding Float-based
- * statistics. It's used in Skeleton.Unit, and Main.Robot.
+ * statistics. It's used in FinalProject.Skeleton.Unit, and Main.Robot.
  */
 
 public class FloatWorkerStatistic extends Statistic {

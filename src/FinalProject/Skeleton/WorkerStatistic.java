@@ -1,8 +1,8 @@
-package Skeleton;
+package FinalProject.Skeleton;
 
 /**
  * Use this as a general class for holding Integer-based
- * statistics. It's used in Skeleton.Unit, and Robot.
+ * statistics. It's used in FinalProject.Skeleton.Unit, and Robot.
  */
 
 public class WorkerStatistic extends Statistic {

@@ -1,18 +1,17 @@
-package Skeleton;
+package FinalProject.Skeleton;
 
-import javax.naming.event.ObjectChangeListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * This class is used to represent a Skeleton.Statistic. For an example,
- * see Skeleton.WorkerStatistic. We can give it a name like "ActiveUnits",
+ * This class is used to represent a FinalProject.Skeleton.Statistic. For an example,
+ * see FinalProject.Skeleton.WorkerStatistic. We can give it a name like "ActiveUnits",
  * and this will represent some metric of your simulation (in that
  * case it would number of units with the same name performing
  * a particular action). There's also the RobotActionsPerformed
  * statistic in the Robot class.
  *
- * In general, you should be able to get by using the Skeleton.WorkerStatistic,
+ * In general, you should be able to get by using the FinalProject.Skeleton.WorkerStatistic,
  * but it would be helpful to make a different ones for more specialized summarization,
  * or value parsing.
  */
